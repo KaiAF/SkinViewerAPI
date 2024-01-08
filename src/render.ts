@@ -109,7 +109,7 @@ export async function render(
     }
   })
     .flip(true) // DON'T ASK ME WHY, BUT THREE.JS MODEL IS FLIPPED ON THE Y AXIS? This is an easy workaround...
-    .resize(Math.floor(w / 2), Math.floor(h / 2))
+    //.resize(Math.floor(w / 2), Math.floor(h / 2))
     .png()
     .toBuffer();
 }

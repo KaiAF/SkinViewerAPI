@@ -11,6 +11,7 @@ It is also missing how to run GLTF models which probably is easier to deal with,
 
 - This is missing the models for Minecraft capes.
 - The gamma seems too high, making the texture look too gray.
+- 64x32 skins do not work properly.
 
 ### Sort of based off of
 

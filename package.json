@@ -1,6 +1,6 @@
 {
   "name": "3d-render",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "This is a project designed to open source the way that some websites (specifically, NameMC.com, Laby.net and LivzMC.net) render 3d models through a web api.\r Looking at their headers, they use ExpressJS which is a way to create websites through NodeJS.",
   "main": "src/server.ts",
   "devDependencies": {
@@ -27,6 +27,7 @@
   "license": "MIT",
   "dependencies": {
     "canvas": "^2.11.2",
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "gl": "^6.0.2",
     "jsdom": "^23.1.0",
