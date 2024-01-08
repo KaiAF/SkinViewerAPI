@@ -3,6 +3,8 @@ import { ModelOptions, degrees_to_radians } from "./ModelUtils";
 import SkinModel from "./SkinModel";
 import CapeModel from "./CapeModel";
 
+const CapeDefaultAngle = (10.8 * Math.PI) / 180;
+
 export default class PlayerModel extends Group {
   constructor(
     texture: Texture,
@@ -30,10 +32,12 @@ export default class PlayerModel extends Group {
       const cape = new CapeModel(capeTexture);
       cape.name = "cape";
       if (modelOptions.backwards) {
-        cape.position.z += 3;
+        cape.position.z += 4;
+        cape.rotation.x -= CapeDefaultAngle;
       } else {
-        cape.position.z -= 3; // it's either 2 or 3
-        cape.rotation.x += degrees_to_radians(180);
+        cape.position.z -= 2; // it's either 2 or 3
+        cape.rotation.y += degrees_to_radians(180);
+        cape.rotation.x += CapeDefaultAngle;
       }
 
       this.add(cape);
