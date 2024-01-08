@@ -4,7 +4,7 @@ import THREE, { Texture } from 'three';
 import sharp from 'sharp';
 import { JSDOM } from 'jsdom';
 import PlayerModel from './models/PlayerModel';
-import { degrees_to_radians } from './models/ModelUtils';
+import { ModelOptions, degrees_to_radians } from './models/ModelUtils';
 
 const { window } = new JSDOM();
 
@@ -44,11 +44,19 @@ function imageScale(height: number): number {
   }
 }
 
-type ModelOptions = {
-  skinId: string,
-  capeId: string | null,
-  slim: boolean,
-};
+async function generateCapeTexture(capeId: string): Promise<Texture | null> {
+  try {
+    const image: Image | null = await toImage(`https://textures.livzmc.net/${capeId}.png`);
+    if (!image) return null;
+    const canvas = toCanvas(image);
+    if (!canvas) return null;
+    const texture = new Texture(canvas as unknown as OffscreenCanvas);
+
+    return texture;
+  } catch (e) {
+    return null;
+  }
+}
 
 export async function render(
   wh: number,
@@ -65,7 +73,12 @@ export async function render(
   const skinCanvas = toCanvas(skinImage);
   if (!skinCanvas) return null;
   const skinTexture = new Texture(skinCanvas as unknown as OffscreenCanvas);
-  const playerModel = new PlayerModel(skinTexture, modelOptions.slim);
+  const capeTexture = modelOptions.capeId != null ? await generateCapeTexture(modelOptions.capeId) : null;
+  const playerModel = new PlayerModel(
+    skinTexture,
+    capeTexture,
+    modelOptions,
+  );
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(38, aspectRatio, 0.1, 100);

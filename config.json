@@ -1,6 +1,7 @@
 {
   "cache": {
     "location": "cache",
-    "skins": true
+    "skins": true,
+    "version": "0"
   }
 }

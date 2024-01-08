@@ -46,7 +46,18 @@ export function setSkinUVs(box: BoxGeometry, u: number, v: number, width: number
   setUVs(box, u, v, width, height, depth, 64, 64);
 }
 
+export function setCapeUVs(box: BoxGeometry, u: number, v: number, width: number, height: number, depth: number): void {
+  setUVs(box, u, v, width, height, depth, 64, 32);
+}
+
 export function degrees_to_radians(degree: number): number {
   const TAU = 2 * Math.PI;
   return degree * (TAU / 360);
 }
+
+export type ModelOptions = {
+  skinId: string,
+  capeId: string | null,
+  slim: boolean,
+  backwards: boolean,
+};
