@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import fs from 'fs';
+import fsp from 'fs/promises';
 import dotenv from 'dotenv';
 dotenv.config();
 import { render } from './render';
@@ -21,7 +22,7 @@ async function Render(req: Request, res: Response): Promise<void> {
     const isCached: boolean = fs.existsSync(`${CACHE_LOCATION}/${key}.png`);
     // you would want to modify this to go to your own texture server.
     // I am just using my own
-    const skinBuffer: Buffer | null = isCached && CACHE_SKIN_IMAGES ? fs.readFileSync(`${CACHE_LOCATION}/${key}.png`) : await render(
+    const skinBuffer: Buffer | null = isCached && CACHE_SKIN_IMAGES ? await fsp.readFile(`${CACHE_LOCATION}/${key}.png`) : await render(
       size,
       {
         skinId,
@@ -40,7 +41,7 @@ async function Render(req: Request, res: Response): Promise<void> {
     }
     res.writeHead(200, { 'Content-Type': 'image/png', 'Content-Length': skinBuffer.length });
     res.end(skinBuffer);
-    if (!isCached && CACHE_SKIN_IMAGES) fs.writeFileSync(`${CACHE_LOCATION}/${key}.png`, skinBuffer);
+    if (!isCached && CACHE_SKIN_IMAGES) await fsp.writeFile(`${CACHE_LOCATION}/${key}.png`, skinBuffer);
   } catch (e) {
     console.error(e);
     res.sendStatus(500);
